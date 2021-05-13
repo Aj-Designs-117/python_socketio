@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask & Socket</title>
+    <link rel="stylesheet" 
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" 
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" 
+        crossorigin="anonymous">
+</head>
+<body>
+
+   <div class="container mt-5">
+        <h1>Mini chat general</h1>
+        <div class="row">
+            <div class="col-md-8 mt-2">
+                <label for="myMessage">Escriba algo...</label>
+                <input type="text" id="myMessage" class="form-control">
+                <button type=button id="send" class="btn btn-success mt-2">Enviar</button>
+            </div>
+            <div class="col-md-4">
+                <ul id="messages" class="list-group"></ul>
+            </div>
+        </div>
+   </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" 
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" 
+            crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        //socket.emit('message', 'hello world')
+
+        socket.on('message', (msg)=>{
+            $('#messages').append(`
+                <li class="list-group-item">${msg}</li>
+            `)
+        });
+
+        $('#send').on('click', ()=>{
+            socket.send($('#myMessage').val());
+            $('#myMessage').val('');
+        });
+    </script>
+</body>
+</html>
